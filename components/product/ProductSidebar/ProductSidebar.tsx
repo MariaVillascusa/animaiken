@@ -2,7 +2,6 @@
 import s from './ProductSidebar.module.css'
 // import { useAddItem } from '@framework/cart'
 import { FC, useEffect, useState } from 'react'
-// import type { Product } from '@commerce/types/product'
 import { Button, Collapse, Rating, Text } from '@/components/ui'
 import ErrorMessage from '@/components/ui/ErrorMessage'
 import useUIStore from '@/components/ui/useUIStore'
@@ -61,41 +60,38 @@ const ProductSidebar: FC<ProductSidebarProps> = ({ product, className }) => {
         setSelectedOptions={setSelectedOptions}
       /> */}
       <Text
-        className="pb-4 break-words w-full max-w-xl"
+        className='pb-4 break-words w-full max-w-xl'
         html={product.description}
       />
-      <div className="flex flex-row justify-between items-center">
+      <div className='flex flex-row justify-between items-center'>
         <Rating value={4} />
-        <div className="text-accent-6 pr-1 font-medium text-sm">36 reviews</div>
+        <div className='text-accent-6 pr-1 font-medium text-sm'>36 reviews</div>
       </div>
       <div>
-        {error && <ErrorMessage error={error} className="my-5" />}
-        {process.env.COMMERCE_CART_ENABLED && (
-          <Button
-            aria-label="Add to Cart"
-            type="button"
-            className={s.button}
-            onClick={addToCart}
-            loading={loading}
-            disabled={variant?.availableForSale === false}
-          >
-            {variant?.availableForSale === false
-              ? 'Not Available'
-              : 'Add To Cart'}
-          </Button>
-        )}
+        {error && <ErrorMessage error={error} className='my-5' />}
+        <Button
+          aria-label='Add to Cart'
+          className={s.button}
+          onClick={addToCart}
+          loading={loading}
+          disabled={variant?.availableForSale === false}
+        >
+          {variant?.availableForSale === false
+            ? 'Not Available'
+            : 'Add To Cart'}
+        </Button>
       </div>
-      {/* <div className="mt-6">
-        <Collapse title="Care">
+      <div className='mt-6'>
+        <Collapse title='Care'>
           This is a limited edition production run. Printing starts when the
           drop ends.
         </Collapse>
-        <Collapse title="Details">
+        <Collapse title='Details'>
           This is a limited edition production run. Printing starts when the
           drop ends. Reminder: Bad Boys For Life. Shipping may take 10+ days due
           to COVID-19.
         </Collapse>
-      </div> */}
+      </div>
     </div>
   )
 }

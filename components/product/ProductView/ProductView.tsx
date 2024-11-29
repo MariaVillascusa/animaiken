@@ -21,7 +21,6 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
   //   baseAmount: product.price.retailPrice,
   //   currencyCode: product.price.currencyCode!,
   // })
-
   return (
     <>
       <Container className='max-w-none w-full' clean>
@@ -34,19 +33,22 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
             />
             <div className={s.sliderContainer}>
               <ProductSlider key={product.id}>
-                {product.images.map((image, i) => (
-                  <div key={image.url} className={s.imageContainer}>
-                    <Image
-                      className={s.img}
-                      src={image.url!}
-                      alt={'Product Image'}
-                      width={600}
-                      height={600}
-                      priority={i === 0}
-                      quality='85'
-                    />
-                  </div>
-                ))}
+                {product.images.map((image, i) => {
+                  const imageSrc = `${process.env.STRAPI_API_URL}${image.url}`
+                  return (
+                    <div key={image.url} className={s.imageContainer}>
+                      <Image
+                        className={s.img}
+                        src={imageSrc}
+                        alt={'Product Image'}
+                        width={300}
+                        height={300}
+                        priority={i === 0}
+                        quality='85'
+                      />
+                    </div>
+                  )
+                })}
               </ProductSlider>
             </div>
             {/* {process.env.COMMERCE_WISHLIST_ENABLED && (
@@ -64,27 +66,34 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
             className={s.sidebar}
           />
         </div>
-        <hr className='mt-7 border-accent-2' />
-        <section className='py-12 px-6 mb-10'>
-          <Text variant='sectionHeading'>Related Products</Text>
-          <div className={s.relatedProductsGrid}>
-            {relatedProducts.map((p) => (
-              <div key={p.slug} className='bg-accent-0 border border-accent-2'>
-                <ProductCard
-                  noNameTag
-                  product={p}
-                  key={p.slug}
-                  variant='simple'
-                  className='animated fadeIn'
-                  imgProps={{
-                    alt: p.name,
-                    className: 'w-full h-full object-cover',
-                  }}
-                />
+        {relatedProducts.length && (
+          <>
+            <hr className='mt-7 border-accent-2' />
+            <section className='py-12 px-6 mb-10'>
+              <Text variant='sectionHeading'>Related Products</Text>
+              <div className={s.relatedProductsGrid}>
+                {relatedProducts.map((p) => (
+                  <div
+                    key={p.slug}
+                    className='bg-accent-0 border border-accent-2'
+                  >
+                    <ProductCard
+                      noNameTag
+                      product={p}
+                      key={p.slug}
+                      variant='simple'
+                      className='animated fadeIn'
+                      imgProps={{
+                        alt: p.name,
+                        className: 'w-full h-full object-cover',
+                      }}
+                    />
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </section>
+            </section>
+          </>
+        ) || null}
       </Container>
       {/* <SEO
         title={product.name}
@@ -95,9 +104,9 @@ const ProductView: FC<ProductViewProps> = ({ product, relatedProducts }) => {
           description: product.description,
           images: [
             {
-              url: product.images[0]?.url!,
-              width: '800',
-              height: '600',
+              url: `${process.env.STRAPI_API_URL}${product.images[0].url}`,
+              width: '400',
+              height: '400',
               alt: product.name,
             },
           ],

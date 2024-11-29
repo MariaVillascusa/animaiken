@@ -83,7 +83,7 @@ export const fetchProducts = async (category: string) => {
   return await fetchApi<Product[]>(`/articles${query}`)
 }
 
-export const fetchProductsByGQL = async (filters: ProductFiltersGQL) => {
+export const fetchProductsByGQL = async (filters?: ProductFiltersGQL) => {
   const query = `
     query Articles($filters: ArticleFiltersInput) {
       articles(filters: $filters) {
